@@ -6,7 +6,8 @@ const config = {
     port: process.env.PORT || 3000,
     databaseUrl: process.env.DATABASE_URL || '',
     finnhubApiKey: process.env.FINNHUB_API_KEY || '',
-    env: process.env.NODE_ENV || 'development'
+    finnhubUrl: process.env.FINNHUB_URL,
+    env: process.env.NODE_ENV || 'development',
   };
   
   if (!config.databaseUrl) {
@@ -17,4 +18,7 @@ const config = {
     throw new Error('FINNHUB_API_KEY is not defined in the environment');
   }
   
+  if (!config.finnhubUrl) {
+    throw new Error('FINNHUB_URL is not defined in the environment');
+  }
   export default config;
