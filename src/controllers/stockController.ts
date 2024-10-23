@@ -14,7 +14,7 @@ export const getStock = async(req: Request, res: Response) => {
 }
 
 export const startPriceCheck = async(req: Request, res: Response) => {
-    const { symbol } = req.params;
+    const { symbol } = stockSymbolSchema.parse(req.params);
     logger.info(`Starting periodic price check for symbol: ${symbol}`);
 
     await initiatePriceCheck(symbol);
