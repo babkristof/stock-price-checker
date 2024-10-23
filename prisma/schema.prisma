@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum StockType {
+  COMMON_STOCK
+  PREFERRED_STOCK
+}
+
+enum Currency {
+  USD
+  EUR
+  GBP
+  JPY
+}
+
+model Stock {
+  id              Int       @id @default(autoincrement())
+  symbol          String    @unique @db.VarChar(15)
+  displaySymbol   String?    @db.VarChar(10)
+  description     String    @db.VarChar(255)
+  figi            String?    @db.VarChar(12)
+  mic             String?    @db.VarChar(4)
+  currency        Currency
+  type            StockType
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  prices          StockPrice[]
+
+  @@index([symbol])
+}
+
+model StockPrice {
+  id        Int       @id @default(autoincrement())
+  price     Decimal @db.Decimal(12, 6)
+  recordedAt DateTime @default(now())
+  stock     Stock     @relation(fields: [stockId], references: [id])
+  stockId   Int
+
+  @@index([stockId, recordedAt])
+}
