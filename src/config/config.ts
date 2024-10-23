@@ -4,10 +4,11 @@ dotenv.config();
 
 const config = {
     port: process.env.PORT || 3000,
-    databaseUrl: process.env.DATABASE_URL || '',
-    finnhubApiKey: process.env.FINNHUB_API_KEY || '',
+    databaseUrl: process.env.DATABASE_URL,
+    finnhubApiKey: process.env.FINNHUB_API_KEY,
     finnhubUrl: process.env.FINNHUB_URL,
     env: process.env.NODE_ENV || 'development',
+    recordNumberForAvarage: process.env.RECORD_NUMBER_FOR_AVARAGE || 10
   };
   
   if (!config.databaseUrl) {

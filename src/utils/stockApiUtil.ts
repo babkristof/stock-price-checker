@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Stock } from '@prisma/client';
 import config from "../config/config";
 import logger from '../config/logger';
-import { StockQuote, FullStockQuote } from '../types/stockQuote';
+import { StockQuote, FullStockQuote } from '../types/stock';
 import { InternalException } from '../exceptions/InternalException';
 import { ErrorCode } from '../exceptions/ErrorCode';
 
