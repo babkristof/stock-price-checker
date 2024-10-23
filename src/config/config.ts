@@ -1,0 +1,19 @@
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const config = {
+    port: process.env.PORT || 3000,
+    databaseUrl: process.env.DATABASE_URL || '',
+    finnhubApiKey: process.env.FINNHUB_API_KEY || '',
+  };
+  
+  if (!config.databaseUrl) {
+    throw new Error('DATABASE_URL is not defined in the environment');
+  }
+  
+  if (!config.finnhubApiKey) {
+    throw new Error('FINNHUB_API_KEY is not defined in the environment');
+  }
+  
+  export default config;
