@@ -1,5 +1,5 @@
 import { Stock, StockPrice } from '@prisma/client';
-import { prismaClient } from '..';
+import { prismaClient } from '../index';
 import { ErrorCode } from '../exceptions/ErrorCode';
 import { NotFoundException } from '../exceptions/NotFoundException';
 import { startPriceCheckJob } from '../utils/cronJobUtil'

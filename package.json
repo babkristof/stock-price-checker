@@ -4,18 +4,36 @@
   "description": "A TypeScript-based Express.js API for tracking stock prices and calculating moving averages using a stock market API.",
   "author": "Kristóf Bába",
   "license": "ISC",
-  "main": "index.js",
+  "main": "server.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/index.js",
+    "start": "node dist/server.js",
     "build": "tsc",
     "dev": "npx nodemon",
     "migrate": "npx prisma migrate deploy",
     "seed": "npx prisma db seed",
-    "generate-openapi": "ts-node src/config/swagger.ts"
+    "generate-openapi": "ts-node src/config/swagger.ts",
+    "test": "mocha -r ts-node/register test/services/*.ts",
+    "coverage": "nyc --reporter=text --reporter=html npm run test"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "test/**/*.test.ts"
+    ],
+    "reporter": [
+      "text",
+      "html"
+    ],
+    "all": true,
+    "check-coverage": true
   },
   "dependencies": {
     "@prisma/client": "^5.21.1",
@@ -30,11 +48,18 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/chai": "^5.0.0",
     "@types/express": "^5.0.0",
+    "@types/mocha": "^10.0.9",
     "@types/node": "^22.7.9",
     "@types/node-cron": "^3.0.11",
+    "@types/sinon": "^17.0.3",
     "@types/swagger-jsdoc": "^6.0.4",
+    "chai": "^4.5.0",
+    "mocha": "^10.7.3",
     "nodemon": "^3.1.7",
+    "nyc": "^17.1.0",
+    "sinon": "^19.0.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   }

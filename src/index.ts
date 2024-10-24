@@ -1,6 +1,5 @@
 import express, { Express } from 'express';
 import { PrismaClient } from '@prisma/client';
-import config from './config/config';
 import stockRoutes from './routes/stockRoutes'
 import { errorMiddleware } from './middlewares/errorMiddleware'
 import logger from './config/logger';
@@ -29,6 +28,4 @@ export const prismaClient = new PrismaClient();
 
 app.use(errorMiddleware);
 
-app.listen(config.port, () => {
-    logger.info(`Server started on port ${config.port} in ${config.env} mode`);
-});
+export default app;

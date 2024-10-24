@@ -17,5 +17,5 @@ COPY --from=builder /app/prisma ./prisma
 RUN npm ci --omit=dev && npm prune --production && npm cache clear --force
 
 
-CMD ["sh", "-c", "npx prisma migrate deploy && node prisma/seed.js && node src/index.js"]
+CMD ["sh", "-c", "npx prisma migrate deploy && node prisma/seed.js && node src/server.js"]
 EXPOSE 3000

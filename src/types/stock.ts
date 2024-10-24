@@ -1,12 +1,10 @@
 import { Stock, StockPrice } from "@prisma/client";
 
-export type StockWithPrices = Stock & { prices: StockPrice[] };
-
 export interface StockResponse {
     symbol: string;
     currentPrice: number;
     lastUpdated: Date;
-    movingAverage: number | null;
+    movingAverage: number;
 }
 
 export interface FullStockQuote {
@@ -18,6 +16,7 @@ export interface FullStockQuote {
     o: number;
     pc: number;
     t: number;
-  }
+}
   
+export type StockWithPrices = Stock & { prices: StockPrice[] };
 export type StockQuote = Pick<FullStockQuote, 'c'>;
