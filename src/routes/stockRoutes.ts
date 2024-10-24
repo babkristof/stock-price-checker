@@ -50,12 +50,9 @@ const stockRoutes: Router = Router();
  *                   example: "Not enough price data for AAPL. At least 10 prices are required."
  *                 errorCode:
  *                   type: integer
- *                   example: 1004
- *                 errors:
- *                   type: null
- *                   example: null
+ *                   example: 1003
  *       404:
- *         description: Stock or prices not found
+ *         description: Stock not found
  *         content:
  *           application/json:
  *             schema:
@@ -63,13 +60,10 @@ const stockRoutes: Router = Router();
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Stock or prices not found for symbol: AAPL."
+ *                   example: "Stock not found for symbol: AAPL."
  *                 errorCode:
  *                   type: integer
  *                   example: 1001
- *                 errors:
- *                   type: null
- *                   example: null
  *       500:
  *         description: Internal Server Error
  *         content:

@@ -17,7 +17,7 @@ export const getStockData = async (symbol: string): Promise<StockResponse> => {
     const stockWithPrices:StockWithPrices = await getStockWithPrices(symbol);
     if (!hasSufficientPriceData(stockWithPrices)) {
         logger.error(`Not enough price data for ${symbol}. Only ${stockWithPrices.prices.length} prices found.`);
-        throw new HttpException(`Not enough price data for ${symbol}. At least 10 prices are required.`, ErrorCode.INSUFFICIENT_DATA,400);
+        throw new HttpException(`Not enough price data for ${symbol}. At least ${RECORD_NUMBER_FOR_AVARAGE} prices are required.`, ErrorCode.INSUFFICIENT_DATA,400);
     }
 
     const { latestPrice, lastUpdated } = getLatestPriceData(stockWithPrices.prices);
@@ -84,9 +84,9 @@ const getStockWithPrices = async(symbol: string): Promise<StockWithPrices> => {
         }
     });
 
-    if (!stockWithPrices || stockWithPrices.prices.length === 0) {
-        logger.error(`Stock or prices not found for symbol: ${symbol}`);
-        throw new NotFoundException(`Stock or prices not found for symbol: ${symbol}`, ErrorCode.STOCK_NOT_FOUND);
+    if (!stockWithPrices) {
+        logger.error(`Stock not found for symbol: ${symbol}`);
+        throw new NotFoundException(`Stock not found for symbol: ${symbol}`, ErrorCode.STOCK_NOT_FOUND);
     }
 
     return stockWithPrices;
