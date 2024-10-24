@@ -2,6 +2,17 @@
 
 A TypeScript-based Express.js API for tracking stock prices and calculating moving averages using a stock market API (e.g., Finnhub). The application also starts periodic checks for stock price updates and saves them to a database.
 
+## Table of Contents
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Running Locally](#running-locally)
+  - [Running with Docker](#running-with-docker)
+- [API Documentation](#api-documentation)
+
+
 ## Features
 
 - **Track Stock Prices**: Fetch real-time stock prices and calculate moving averages.
@@ -9,11 +20,12 @@ A TypeScript-based Express.js API for tracking stock prices and calculating movi
 - **Error Handling**: Comprehensive error handling with custom exceptions.
 - **Logging**: Integrated logging with different log levels for development and production environments.
 - **API Documentation**: OpenAPI documentation generation for endpoints.
+- **Docker**: Docker and Docker Compose support for simplified setup.
 
 
 ## Tech Stack
 
-- **Node.js** (v20.17.0 or later)
+- **Node.js** (v20.x or later)
 - **TypeScript** (v5.6.3 or later)
 - **Express.js**
 - **Prisma ORM**
@@ -21,8 +33,10 @@ A TypeScript-based Express.js API for tracking stock prices and calculating movi
 - **Cron Jobs** with `node-cron`
 - **Logging** with `Winston`
 - **OpenAPI** for API documentation
+- **Docker**
 
-## Directory Structure
+
+## Project Structure
 
 ```plaintext
 .
@@ -55,52 +69,87 @@ A TypeScript-based Express.js API for tracking stock prices and calculating movi
 │   │   └── stockApiUtil.ts         # API utility for fetching stock prices
 │   └── index.ts                    # Main application entry point
 ├── .env                            # Environment variables
+├── Dockerfile                      # Dockerfile for building the application
+├── docker-compose.yml              # Docker Compose configuration
 ├── package-lock.json               # Package lock file
 ├── package.json                    # Project dependencies and scripts
 ├── tsconfig.json                   # TypeScript configuration
 └── README.md                       # Project documentation
 ```
 
+## Getting Started
+
 ### Prerequisites
 
-- **Node.js**: Ensure you have Node.js v20.18.0 or later installed.
-- **PostgreSQL**: Make sure you have a running PostgreSQL instance (version 17). 
+- **Node.js**: Ensure you have Node.js v20.x or later installed.
+- **PostgreSQL**: Make sure you have a running PostgreSQL instance (version 17).
+- **Docker**
 
-### Installation
+
+### Running Locally
 
 1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/babkristof/stock-price-checker.git
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Set up environment variables:  Create a .env file in the project root with the following contents:
-```bash  
-    DATABASE_URL="postgresql://postgres:password@localhost:5432/stock"
-    FINNHUB_API_KEY="your_finnhub_api_key"
-    FINNHUB_URL="https://finnhub.io/api/v1"
-    PORT=3000
-    NODE_ENV=development
-    RECORD_NUMBER_FOR_AVARAGE=10
+```bash
+   git clone https://github.com/yourusername/stock-price-checker.git
+   cd stock-price-checker
 ```
 
-4. Set up the database:
-Run Prisma migrations and seed the database with dummy data(optional):
-   ```bash
-    npx prisma migrate deploy
-    npm run seed
-   ```
-### Usage
-1. Start the application:
-   ```bash
-   npm start
-   ```
-2. The API will be available at http://localhost:3000.
+2. Install dependencies:
+```bash
+   npm install
+```
 
-### Endpoints
+3. Set up environment variables:
+   Create a `.env` file in the root directory:
+   ```bash
+    DATABASE_URL=postgresql://postgresUser:postgresPassword@postgresUrl:5432/dbName?schema=public
+    FINNHUB_API_KEY=your_finnhub_api_key
+    FINNHUB_URL=https://finnhub.io/api/v1
+    NODE_ENV=development
+    RECORD_NUMBER_FOR_AVARAGE=10
+   ```
+
+4. Set up PostgreSQL database:
+   Use your local PostgreSQL instance or connect to an existing one. Apply migrations using Prisma:  
+   ```bash
+   npx prisma migrate deploy
+   ```
+
+5. Run the application:
+   ```bash
+   npm run dev
+   ```  
+
+### Running with Docker
+
+To make the process easier, you can use **Docker** and **Docker Compose** to spin up the entire stack (Node.js app + PostgreSQL) with one command.
+
+1. Ensure Docker is installed.
+
+2. Start the application:
+   ```bash
+   docker-compose up
+   ```
+   This will:
+   - Build the Docker image for the app.
+   - Start both the PostgreSQL container and the app container.
+
+3. Access the app:
+   The app will be available at http://localhost:3000.
+
+4. Stopping the application:
+   To stop and remove the containers:
+   ```bash
+   docker-compose down
+   ```
+
+
+
+### Api Documentation
+To generate the OpenAPI documentation for this project:
+```bash
+npm run generate-openapi
+```
 
 #### **GET /stock/:symbol**
 
@@ -125,31 +174,6 @@ Fetch stock data, including current price, last updated time, and moving average
     "movingAverage": 140.50
   }
    ```
-  - **400 Bad Request: Validation failed or not enough price data for the stock symbol.**:
-  Example Response:
-  ```json
-  {
-    "message": "Not enough price data for AAPL. At least 10 prices are required.",
-    "errorCode": 1004
-  }
-   ```
-  - **404 Not Found: Stock or prices not found.**:
-  Example Response:
-  ```json
-  {
-    "message": "Stock or prices not found for symbol: AAPL.",
-    "errorCode": 1001
-  }
-   ```
-
-  - **500 Bad Request: Not enough price data for the stock symbol.**:
-  Example Response:
-  ```json
-  {
-    "message": "Something went wrong",
-    "errorCode": 2001
-  }
-   ```
 
 #### **PUT /stock/:symbol**
 
@@ -167,34 +191,4 @@ Start periodic stock price checks for a given stock symbol. A cron job will fetc
   {
     "started": true,
   }
-   ```
-  - **400 Bad Request: Validation failed or unprocessable entity.**:
-  Example Response:
-  ```json
-    {
-    "message": "Unprocessable entity",
-    "errorCode": 1002,
-    "errors": ["Invalid stock symbol"]
-    }
-   ```
-  - **404 Not Found: Stock not found.**:
-  ```json
-    {
-    "message": "Stock not found",
-    "errorCode": 1001
-    }
-   ```
-  - **409 Conflict: Job already running for the specified stock symbol.**:
-  ```json
-    {
-    "message": "Price check for AAPL is already running.",
-    "errorCode": 3001
-    }
-   ```
-  - **500 Internal Server Error:**:
-  ```json
-    {
-    "message": "Something went wrong",
-    "errorCode": 2001
-    }
    ```
