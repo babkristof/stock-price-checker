@@ -70,11 +70,7 @@
                     },
                     "errorCode": {
                       "type": "integer",
-                      "example": 1004
-                    },
-                    "errors": {
-                      "type": null,
-                      "example": null
+                      "example": 1003
                     }
                   }
                 }
@@ -82,7 +78,7 @@
             }
           },
           "404": {
-            "description": "Stock or prices not found",
+            "description": "Stock not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -90,15 +86,11 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Stock or prices not found for symbol: AAPL."
+                      "example": "Stock not found for symbol: AAPL."
                     },
                     "errorCode": {
                       "type": "integer",
                       "example": 1001
-                    },
-                    "errors": {
-                      "type": null,
-                      "example": null
                     }
                   }
                 }
