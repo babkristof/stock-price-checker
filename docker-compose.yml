@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: stock-price-checker
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@pg_db:5432/stock?schema=public
+      PORT: 3000
+      FINNHUB_API_KEY: ${FINNHUB_API_KEY}
+      FINNHUB_URL: ${FINNHUB_URL}
+      NODE_ENV: production
+      RECORD_NUMBER_FOR_AVARAGE: 10
+    depends_on:
+      - pg_db
+    networks:
+      - app-network
+
+  pg_db:
+    image: postgres:17.0
+    restart: unless-stopped
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: stock
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:

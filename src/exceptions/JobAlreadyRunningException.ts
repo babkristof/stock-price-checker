@@ -1,5 +1,5 @@
 import { ErrorCode } from "./ErrorCode";
-import { HttpException } from "./httpException";
+import { HttpException } from "./HttpException";
 
 export class JobAlreadyRunningException extends HttpException {
     constructor(symbol: string) {

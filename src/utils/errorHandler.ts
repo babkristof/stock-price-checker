@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ZodError } from "zod";
-import { HttpException } from "../exceptions/httpException";
+import { HttpException } from "../exceptions/HttpException";
 import { InternalException } from "../exceptions/InternalException";
 import { ErrorCode } from "../exceptions/ErrorCode";
 import { BadRequestException } from "../exceptions/BadRequestException";

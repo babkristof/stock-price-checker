@@ -63,8 +63,8 @@ A TypeScript-based Express.js API for tracking stock prices and calculating movi
 
 ### Prerequisites
 
-- **Node.js**: Ensure you have Node.js v20.17.0 or later installed.
-- **PostgreSQL**: Make sure you have a running PostgreSQL instance. 
+- **Node.js**: Ensure you have Node.js v20.18.0 or later installed.
+- **PostgreSQL**: Make sure you have a running PostgreSQL instance (version 17). 
 
 ### Installation
 

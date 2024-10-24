@@ -6,7 +6,7 @@ import { startPriceCheckJob } from '../utils/cronJobUtil'
 import logger from '../config/logger';
 import { StockQuote, StockResponse, StockWithPrices } from '../types/stock';
 import config from '../config/config';
-import { HttpException } from '../exceptions/httpException';
+import { HttpException } from '../exceptions/HttpException';
 
 const RECORD_NUMBER_FOR_AVARAGE = config.recordNumberForAvarage;
 

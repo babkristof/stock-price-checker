@@ -9,7 +9,7 @@ import logger from './config/logger';
 const app: Express = express();
 app.use(express.json());
 
-app.use((req, res, next) => {
+app.use((req, _res, next) => {
     logger.info(`[${req.method}] ${req.url} - Request received`);
     next();
 });
