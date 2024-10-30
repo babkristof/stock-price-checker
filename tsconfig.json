@@ -11,6 +11,6 @@
     "noUnusedParameters": true,                          /* Raise an error when a function parameter isn't read. */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
-  "include": ["src/**/*", "test/**/*"],
+  "include": ["src/**/*", "prisma/seed.ts"],
   "exclude": ["node_modules"]
 }

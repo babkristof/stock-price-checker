@@ -12,7 +12,7 @@
     "migrate": "npx prisma migrate deploy",
     "seed": "npx prisma db seed",
     "generate-openapi": "ts-node src/config/swagger.ts",
-    "test": "mocha -r ts-node/register test/services/*.ts",
+    "test": "mocha -r ts-node/register test/**/*.ts",
     "coverage": "nyc --reporter=text --reporter=html npm run test"
   },
   "prisma": {
